@@ -32,7 +32,7 @@ app.post(('/searches'),(req,res) =>{
     console.log('Get Request->  ',req.body);
     if(req.body.select === 'title'){
     let title = req.body.q;
-    let url = `https://www.googleapis.com/books/v1/volumes?q=${title}`;
+    let url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${title}`;
     superagent.get(url)
     .then(val =>{
         let dataBooks = val.body;
@@ -48,7 +48,7 @@ app.post(('/searches'),(req,res) =>{
     else if(req.body.select === 'author'){
         let author = req.body.q;
         console.log(author);
-    let url = `https://www.googleapis.com/books/v1/volumes?q=${author}`;
+    let url = `https://www.googleapis.com/books/v1/volumes?q=inauthor:${author}`;
     superagent.get(url)
     .then(val =>{
         let dataBooks = val.body;
@@ -64,11 +64,10 @@ app.post(('/searches'),(req,res) =>{
 });
 
 function Book(data){
-    this.title = data.volumeInfo.title;
-    this.image = data.volumeInfo.imageLinks.thumbnail;
-    this.authors = data.volumeInfo.authors;
-    this.description = data.volumeInfo.description;
-
+    this.title = data.volumeInfo.title || 'title book';
+    this.image = data.volumeInfo.imageLinks.thumbnail || 'https://www.freeiconspng.com/uploads/book-icon--icon-search-engine-6.png';
+    this.authors = data.volumeInfo.authors || [];
+    this.description = data.volumeInfo.description || 'no description';
 }
 
 app.get('*',(req,res)=>{
