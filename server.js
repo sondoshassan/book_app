@@ -19,7 +19,7 @@ app.set('views', [path.join(__dirname, 'views'),
                       path.join(__dirname, 'views/pages/searches/')]);
 
 
-app.get('/hello',(req,res) =>{
+app.get('/',(req,res) =>{
 res.render('index');
 });
 app.get(('/searches/new'),(req,res)=>{
@@ -40,7 +40,11 @@ app.post(('/searches'),(req,res) =>{
            return new Book(val);
         })
         res.render('show',{data: array,title: title});
-    });}
+    })
+.catch (error =>{
+    res.render('error');
+});
+}
     else if(req.body.select === 'author'){
         let author = req.body.q;
         console.log(author);
@@ -52,6 +56,9 @@ app.post(('/searches'),(req,res) =>{
            return new Book(val);
         })
         res.render('show',{data: array,author: author});
+    })
+    .catch (error =>{
+        res.render('error');
     });
     }
 });
@@ -63,6 +70,10 @@ function Book(data){
     this.description = data.volumeInfo.description;
 
 }
+
+app.get('*',(req,res)=>{
+res.render('error');
+});
 
 
 
