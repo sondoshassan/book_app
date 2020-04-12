@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>search result</title>
+    <link rel="stylesheet" href="/styles/base.css">
+</head>
+<body>
+    <ul>
+        <%data.forEach(val =>{%>
+        <li><%= val.title%></li>
+        <img src="<%= val.image%>">
+        <%if(val.authors[0]){%>
+        <% val.authors.forEach(value =>{ %>
+            <li><%= value%></li>
+            <% }) %>
+            <%}%>
+        <li><%= val.description%></li>
+        <%}) %>
+        
+        </ul>
+    
+</body>
+</html>
