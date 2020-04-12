@@ -1,0 +1,28 @@
+@media (min-width: 481px) and (max-width: 767px) {
+  /* header {
+      background-color: black;
+      color: white;
+  } */
+    
+  }
+html{
+    background-color: black;
+}
+body {
+    max-width: 490px;
+    background-color: #a7a4a4;
+    margin: auto;
+    height: 100vh;
+}
+main {
+    background-color: #a7a4a4;
+    position: relative;
+}
+
+
+
+
+
+
+
+
