@@ -37,7 +37,7 @@ function homePage(req,res){
     return client.query(SQL)
     .then(result =>{
         
-        res.render('index',{book: result.rows});
+        res.render('index',{data: result.rows});
     });
 }
 
@@ -80,7 +80,7 @@ function detailsPage(req,res){
     let safeValues = [bookClicks];
     return client.query(SQL,safeValues)
     .then(result =>{
-        res.render('details',{detail: result.rows[0]});
+        res.render('details',{data: result.rows[0]});
     });
 }
 

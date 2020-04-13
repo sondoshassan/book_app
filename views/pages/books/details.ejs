@@ -19,18 +19,18 @@
     <%- include ('./layout/header.ejs') %>
     <main>
         <div class="container">
-            <img src="<%= detail.image%>">
-            <h3 class="title"><%= detail.title%></h3>
-            <%if(detail.authors[0]){%>
-            <% detail.authors.forEach(value =>{ %>
+            <img src="<%= data.image%>">
+            <h3 class="title"><%= data.title%></h3>
+            <%if(data.authors[0]){%>
+            <% data.authors.forEach(value =>{ %>
             <li class="auth"><%= value%></li>
             <% }); %>
             <%}%>
-            <% if(detail.description){%>
-            <li class="desc"><%= detail.description%></li>
+            <% if(data.description){%>
+            <li class="desc"><%= data.description%></li>
             <%}%>
-            <li>ISBN code:  <%= detail.isbn %></li>
-            <% detail.bookshelf.forEach(val =>{%>
+            <li>ISBN code:  <%= data.isbn %></li>
+            <% data.bookshelf.forEach(val =>{%>
             <li><%= val %></li>
             <%});%>
         </div>

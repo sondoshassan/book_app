@@ -20,24 +20,8 @@
     <%- include ('./layout/header.ejs') %>
 
     <main>
-        <%data.forEach((val,id) =>{%>
-        <div class="container">
-            <a href="/books/<%= id%>">
-                <% if(val.image){ %>
-                <img src="<%= val.image%>">
-                <%}%>
-                    <h3 class="title"><%= val.title%></h3>
-                <%if(val.authors[0]){%>
-                <% val.authors.forEach(value =>{ %>
-                <li class="auth"><%= value%></li>
-                <% }); %>
-                <%}%>
-            <% if(val.description){%>
-                <li class="desc"><%= val.description%></li>
-                <%}%>
-            </a>
-    </div>
-        <%}); %>
+    <%- include ('./layout/section.ejs') %>
+        
                 <div class="footer">
                     <span class="icon-ello"></span>
                     <span class="icon-ello"></span>
