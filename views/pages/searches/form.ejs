@@ -20,9 +20,17 @@
     <%- include ('./layout/header.ejs') %>
 
     <main>
-    <%- include ('./layout/section.ejs') %>
-        
-                <div class="footer">
+        <form action="/cat" method="post">
+        <legend>Add Book</legend>
+        <input type="text" name="title" placeholder="title">
+        <input type="text" name="image" placeholder="image link">
+        <input type="text" name="ISBN" placeholder="ISBN">
+        <input type="text" name="bookshelf" placeholder="bookshelf">
+        <input type="text" name="authors" placeholder="authors">
+        <textarea name="description" placeholder="description"></textarea>
+        <button>SUBMIT</button>
+        </form>
+                <div class="footer1">
                     <span class="icon-ello"></span>
                     <span class="icon-ello"></span>
                     <span class="icon-ello"></span>

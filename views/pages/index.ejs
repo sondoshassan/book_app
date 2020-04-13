@@ -1,17 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>book search</title>
-    <link rel="stylesheet" href="/styles/base.css" type="text/css">
+    <link rel="stylesheet" href="/styles/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/icomoon@1.0.0/fonts/icomoon.eot">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/icomoon@1.0.0/fonts/icomoon.svg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/icomoon@1.0.0/fonts/icomoon.ttf">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/icomoon@1.0.0/fonts/icomoon.woff">
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/layout.css">
+    <link rel="stylesheet" href="/styles/module.css">
 </head>
+
 <body>
-    <header><h1>Hello</h1></header>
+    <%- include ('./layout/header.ejs') %>
     <main>
-        
-        
+        <p>total save: <%= data.length; %></p>
+        <%data.forEach(val =>{%>
+        <div class="container">
+            
+                <% if(val.image){%>
+                <img src="<%= val.image%>">
+                <%}%>
+                    <h3 class="title"><%= val.title%></h3>
+                <%if(val.authors[0]){%>
+                <% val.authors.forEach(value =>{ %>
+                <li class="auth"><%= value%></li>
+                <% }); %>
+                <%}%>
+            <% if(val.description){%>
+                <li class="desc"><%= val.description%></li>
+                <%}%>
+               <button><a href="/books/<%= val.id%>">View Details</a></button> 
+    </div>
+        <%}); %>
+
+
     </main>
     <footer></footer>
 </body>
+
 </html>

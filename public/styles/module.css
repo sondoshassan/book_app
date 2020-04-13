@@ -27,6 +27,7 @@ input[type="radio"] {
   }
   .nav {
     margin-top: 3.5%;
+    cursor: pointer;
 }
 h2 {
     margin: 0;
@@ -104,3 +105,57 @@ li {
 .desc {
     margin-bottom: 10%;
 }
+.hide {
+    display: none;
+}
+.show {
+    background-color: black;
+    opacity: 0.6;
+    list-style: none;
+    color: white;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    display: flex;
+    color: black;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+}
+header a{
+    text-decoration: none;
+    color: white;  
+}
+button a{
+    text-decoration: none;
+    color: white;  
+    margin: 2% 0 2% 0;
+}
+button#add {
+    margin-left: 19%;
+}
+textarea {
+    padding: 1.5%;
+    margin: 2% 0 2% 0;
+    border-radius: 3px;
+    width: 309px;
+    color: black;
+    font-weight: bold;
+    height: 44px;
+    border: none;
+    box-sizing: border-box;
+}
+@media (min-width: 320px) and (max-width: 480px) {
+  
+    button:hover {
+        box-shadow: 1px 1px 1px aqua;
+        
+    }
+    p {
+     font-size: 24px;       
+    }
+    
+  }

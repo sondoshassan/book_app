@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>error</title>
+    <title>book search</title>
     <link rel="stylesheet" href="/styles/reset.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/icomoon@1.0.0/fonts/icomoon.eot">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/icomoon@1.0.0/fonts/icomoon.svg">
@@ -13,8 +14,31 @@
     <link rel="stylesheet" href="/styles/layout.css">
     <link rel="stylesheet" href="/styles/module.css">
 </head>
+
 <body>
     <%- include ('./layout/header.ejs') %>
-    <h1>error Page</h1>
+    <main>
+        <div class="container">
+            <img src="<%= data.image%>">
+            <h3 class="title"><%= data.title%></h3>
+            <%if(data.authors[0]){%>
+            <% data.authors.forEach(value =>{ %>
+            <li class="auth"><%= value%></li>
+            <% }); %>
+            <%}%>
+            <% if(data.description){%>
+            <li class="desc"><%= data.description%></li>
+            <%}%>
+            <li>ISBN code:  <%= data.isbn %></li>
+            <% data.bookshelf.forEach(val =>{%>
+            <li><%= val %></li>
+            <%});%>
+        </div>
+
+
+
+    </main>
+    <footer></footer>
 </body>
+
 </html>
