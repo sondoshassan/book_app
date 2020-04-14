@@ -55,9 +55,7 @@ first I get the data from google book api and then render it in ejs file
 javascript, nodejs and ejs
 
 ## Change Log
-
-
-13-04-2020 2:02am - Application now has a fully-functional express server, with GET and POST routes for the book resource.
+13-04-2020 2:02 am - Application now has a fully-functional express server, with GET and POST routes for the book resource.
 
 ## Credits and Collaborations
 

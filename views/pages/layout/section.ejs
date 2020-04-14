@@ -1,5 +1,5 @@
 
-<%data.forEach(val =>{%>
+<%data.forEach((val,id) =>{%>
 <div class="container">
 
     <% if(val.image){%>
@@ -14,5 +14,6 @@
         <% if(val.description){%>
     <li class="desc"><%= val.description%></li>
     <%}%>
+    <button><a href="/save/<%=id%>">Select this Book</a></button>
 </div>
 <% }); %>
