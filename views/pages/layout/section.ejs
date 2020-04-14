@@ -14,15 +14,20 @@
         <% if(val.description){%>
     <li class="desc"><%= val.description%></li>
     <%}%>
-    <button id="show">Select this Book</button>
-    <form id="formAdd" action="/">
+    <button id="show<%=id%>">Select this Book</button>
+    <form id="formAdd<%=id%>" action="/" method="POST">
+        <input name="id" hidden value="<%=id%>">
         <label >title</label>
         <input type="text" value="<%=val.title%>" name="title"> 
         <label >image url</label>
         <input type="text" value="<%=val.image%>" name="image"> 
         <label >description</label>
-        <textarea type="text" value="<%=val.description%>" name="description"></textarea>
-        <button><a href="/<%=id%>">Save</a></button>
+        <textarea type="text" name="description"><%=val.description%></textarea>
+        <label >bookshelf</label>
+        <input type="text" name="bookshelf"> 
+        <button type="submit">Save</button>
     </form>
 </div>
 <% }); %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.slim.min.js"></script>
+<script src="/app.js"></script>

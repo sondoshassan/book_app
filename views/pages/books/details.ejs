@@ -30,11 +30,35 @@
             <li class="desc"><%= data.description%></li>
             <%}%>
             <li>ISBN code:  <%= data.isbn %></li>
-            <% data.bookshelf.forEach(val =>{%>
-            <li><%= val %></li>
-            <%});%>
+            <li>Bookshelf: <%= data.bookshelf %></li>
+            <button id="update">Update</button>
+            <form action="/delete/<%=data.id%>?_method=delete" method="post">
+                <button type="submit">Delete</button>
+            </form>
         </div>
-
+        <form action="/update/<%=data.id%>?_method=put" method="POST" id="formDetail">
+            <label>image url</label>
+            <input type="text" value="<%=data.image%>" name="image">
+            <label>title</label>
+            <input type="text" value="<%=data.title%>" name="title">
+            <label>authors</label>
+            <% data.authors.forEach(value =>{ %>
+            <input type="text" name="authors" value="<%= value%>">
+            <% }); %>
+            <label>description</label>
+            <textarea type="text" name="description"><%=data.description%></textarea>
+            <label>ISBN</label>
+            <input type="text" name="isbn" value="<%= data.isbn %>">
+            <label>bookshelf</label>
+            
+            <select name="bookshelf">
+                <% bookshelf.forEach(val =>{%>
+                    <option selected="<%=val.bookshelf==data.bookshelf%>" value="<%= val.bookshelf%>"><%= val.bookshelf%></option>
+              <%  });%>
+                
+            </select>
+            <button type="submit">Save</button>
+        </form>
 
 
     </main>
