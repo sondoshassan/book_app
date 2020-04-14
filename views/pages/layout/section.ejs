@@ -5,7 +5,7 @@
     <% if(val.image){%>
     <img src="<%= val.image%>">
     <%}%>
-                <h3 class="title"><%= val.title%></h3>
+    <h3 class="title"><%= val.title%></h3>
     <%if(val.authors[0]){%>
     <% val.authors.forEach(value =>{ %>
     <li class="auth"><%= value%></li>
@@ -14,6 +14,20 @@
         <% if(val.description){%>
     <li class="desc"><%= val.description%></li>
     <%}%>
-    <button><a href="/save/<%=id%>">Select this Book</a></button>
+    <button id="show<%=id%>">Select this Book</button>
+    <form id="formAdd<%=id%>" action="/" method="POST">
+        <input name="id" hidden value="<%=id%>">
+        <label >title</label>
+        <input type="text" value="<%=val.title%>" name="title"> 
+        <label >image url</label>
+        <input type="text" value="<%=val.image%>" name="image"> 
+        <label >description</label>
+        <textarea type="text" name="description"><%=val.description%></textarea>
+        <label >bookshelf</label>
+        <input type="text" name="bookshelf"> 
+        <button type="submit">Save</button>
+    </form>
 </div>
 <% }); %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.slim.min.js"></script>
+<script src="/app.js"></script>
