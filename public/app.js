@@ -1,7 +1,14 @@
 'use strict';
 
+
+$('#list').hide();
 $('#targ').on('click',()=>{
-    $('#list').removeClass('hide');
-    $('#list').addClass('show'); 
-    $('#targ').addClass('show'); 
+    $('#list').toggle();
+});
+
+
+
+$('formAdd').hide();
+$('#show').on('click',()=>{
+$('formAdd').toggle();
 });

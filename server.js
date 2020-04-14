@@ -21,188 +21,91 @@ path.join(__dirname, 'views/pages/books/'),
 path.join(__dirname, 'views/pages/searches/')]);
 
 
-
+let allBooksAPI = [];
 app.get('/', homePage);
 app.get('/searches/new',mainForm);
-app.get('/form', goToForm);
-app.post(('/searches'), searchPage);
+app.post('/searches', searchPage);
 app.get('/books/:book_id', detailsPage);
-app.get('/save/:select_id',savePage);
+app.get('/:select_id',goToMainPage);
 
 
 
+// it will render the books which selected from API page
 function homePage(req, res) {
     let SQL = 'SELECT * FROM books;';
-    return client.query(SQL)
-        .then(result => {
-
-            res.render('index', { data: result.rows });
-        });
+    client.query(SQL)
+    .then(result =>{
+        res.render('index',{data:result.rows});
+    });
 }
+
+//main form for searching from API
 function mainForm(req, res) {
     res.render('new');
 }
-function savePage(req,res){
-let selectBook =req.params.select_id;
-selectBookDataBase(selectBook);
-let SQL = 'SELECT * FROM book_add WHERE title=$1;';
-let safeValues = [array[selectBook].title];
-    return client.query(SQL,safeValues)
-        .then(result => {
-            console.log('llllllll', result.rows);
-            res.render('save',{data: result.rows});
-        });
-}
-function selectBookDataBase(select){
-    let title = array[select].title;
-    let image = array[select].image;
-    let ISBN = array[select].ISBN;
-    let bookshelf = array[select].bookshelf;
-    let authors = array[select].authors;
-    let description = array[select].description;
-    let SQL = 'INSERT INTO book_add (title,image,ISBN,bookshelf,authors,description) VALUES ($1,$2,$3,$4,$5,$6);';
-    let safeValues = [title, image, ISBN, bookshelf, authors, description];
-    return client.query(SQL, safeValues)
-        .then(() => {
-            res.redirect(`/save/${select}`);
-        })
-        .catch(error => {
-            console.log(error);
-        });
-}
 
-function goToForm(req, res) {
-    res.render('form');
-}
-function userAdd(req, res) {
-    userAddData(req, res);
-    let SQL = 'SELECT * FROM book_add;';
-    return client.query(SQL)
-        .then(result => {
-            console.log('hhhhhhhhhhh', result.rows);
-            res.render('category');
-        })
-}
-
-function userAddData(req, res) {
-    console.log(req.body);
-    let title = req.body.title;
-    let image = req.body.image;
-    let ISBN = req.body.ISBN;
-    let bookshelf = req.body.bookshelf;
-    let authors = req.body.authors;
-    let description = req.body.description;
-    let SQL = 'INSERT INTO book_add (title,image,ISBN,bookshelf,authors,description) VALUES ($1,$2,$3,$4,$5,$6);';
-    let safeValues = [title, image, ISBN, bookshelf, authors, description];
-    return client.query(SQL, safeValues)
-        .then(() => {
-            res.redirect('/cat');
-        })
-        .catch(error => {
-            console.log(error);
-        });
-}
-
-
+// if you press in detials it will render this
 function detailsPage(req, res) {
     let bookClicks = req.params.book_id;
-    let SQL = 'SELECT * FROM detail WHERE id=$1;';
+    let SQL = 'SELECT * FROM books WHERE id=$1;';
     let safeValues = [bookClicks];
     return client.query(SQL, safeValues)
         .then(result => {
-            res.render('details', { data: result.rows[0] });
+            res.render('details', { data: result.rows[0]});
         });
 }
 
+// to find the book from API
 function searchPage(req, res) {
-    array = [];
     if (req.body.select === 'title') {
         let title = req.body.q;
-        let url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${title}`;
-        return superagent.get(url)
-            .then(val => {
-                let dataBooks = val.body;
-                let array = dataBooks.items.map(val => {
-                    let bookObject = new Book(val);
-                    saveInDataBase(bookObject, req, res);
-                    saveDetails(bookObject, res);
-                    array.push(bookObject);
-                    return bookObject;
-                });
-                res.render('show', { data: array, title: title });
-            })
-            .catch(error => {
-                res.render('error');
-            });
+        checkTitleOrAuthor('title',title, res);
     }
     else if (req.body.select === 'author') {
         let author = req.body.q;
-        let url = `https://www.googleapis.com/books/v1/volumes?q=inauthor:${author}`;
-        return superagent.get(url)
-            .then(val => {
-                let dataBooks = val.body;
-                let array = dataBooks.items.map(val => {
-                    let bookObject = new Book(val);
-                    saveInDataBase(bookObject, req, res);
-                    saveDetails(bookObject, res);
-                    array.push(bookObject);
-                    return bookObject;
-                });
-                res.render('show', { data: array, author: author });
-            })
-            .catch(error => {
-                res.render('error');
-            });
+        checkTitleOrAuthor('author',author, res);
     }
 }
 
-function saveDetails(bookObject, res) {
-    let title = bookObject.title;
-    let image = bookObject.image;
-    let authors = bookObject.authors;
-    let description = bookObject.description;
-    let bookshelf = bookObject.bookshelf;
-    let ISBN = bookObject.ISBN;
-    let SQL = 'INSERT INTO detail (title,image,ISBN,bookshelf,authors,description) VALUES ($1,$2,$3,$4,$5,$6);';
-    let safeValues = [title, image, ISBN, bookshelf, authors, description];
-    return client.query(SQL, safeValues)
-        .then(() => {
-            res.redirect('books/details');
+// for check what the user select and then render it
+function checkTitleOrAuthor(option,select, res) {
+    allBooksAPI = [];
+    let url = `https://www.googleapis.com/books/v1/volumes?q=in${option}:${select}`;
+        superagent.get(url)
+        .then(val => {
+            let dataBooks = val.body.items;
+            let array = dataBooks.map(val => {
+                allBooksAPI.push(new Book(val.volumeInfo));
+                return new Book(val.volumeInfo);
+            });
+            res.render('show', { data: array });
         })
         .catch(error => {
-            console.log(error);
+            res.render('error');
         });
 }
-
-
-function saveInDataBase(bookObject, req, res) {
-    let title = bookObject.title;
-    let image = bookObject.image;
-    let authors = bookObject.authors;
-    let description = bookObject.description;
-    let SQL = 'INSERT INTO books (title,image,authors,description) VALUES ($1,$2,$3,$4);';
-    let safeValues = [title, image, authors, description];
-    return client.query(SQL, safeValues)
-        .then(() => {
-            res.redirect('/');
-        })
-        .catch(error => {
-            console.log(error);
-        });
+// after click on the select book it will render it to home page
+function goToMainPage(req,res){
+    let selectedId = req.params.select_id;
+    let {title,image,authors,ISBN,bookshelf,description} = allBooksAPI[selectedId];
+    let SQL = 'INSERT INTO books (title,image,authors,ISBN,bookshelf,description) VALUES ($1,$2,$3,$4,$5,$6);';
+    let safeValues = [title,image,authors,ISBN,bookshelf,description];
+    return client.query(SQL,safeValues)
+    .then(() =>{
+        res.redirect('/');
+    });
 }
-
-
+// constructor function
 function Book(data) {
-    this.title = data.volumeInfo.title || 'title book';
-    this.image = data.volumeInfo.imageLinks.thumbnail || 'https://www.freeiconspng.com/uploads/book-icon--icon-search-engine-6.png';
-    this.authors = data.volumeInfo.authors || [];
-    this.description = data.volumeInfo.description || 'no description';
-    this.bookshelf = data.volumeInfo.categories || [];
-    this.ISBN = data.volumeInfo.industryIdentifiers[0].type || [];
+    this.title = data.title || 'title book';
+    this.image = data.imageLinks.thumbnail || 'https://www.freeiconspng.com/uploads/book-icon--icon-search-engine-6.png';
+    this.authors = data.authors || [];
+    this.description = data.description || 'no description';
+    this.bookshelf = data.categories || 'no u need to fill';
+    this.ISBN = data.industryIdentifiers[0].type + ' '+data.industryIdentifiers[0].identifier || 'no ISBN';
 }
 
-
-
+// for errors
 app.get('*', (req, res) => {
     res.render('error');
 });
